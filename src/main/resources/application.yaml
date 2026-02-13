@@ -1,0 +1,27 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: kochbuch
+
+  datasource:
+    url: jdbc:h2:mem:kochbuchdb # In-Memory DB Name
+    driverClassName: org.h2.Driver
+    username: kd
+    password: p
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop # Erstellt/Aktualisiert Tabellen automatisch beim Start
+    show-sql: true # Zeigt in der Konsole, was Hibernate macht
+    defer-datasource-initialization: true
+
+  h2:
+    console:
+      enabled: true # Unter /h2-console kannst du in die DB schauen
+
+  sql:
+    init:
+      mode: always
