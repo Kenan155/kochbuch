@@ -14,39 +14,17 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    /**
-     * Der Name des Rezepts.
-     */
     private String name;
 
-
-    /**
-     * Beschreibung/Anleitung für das Rezept.
-     */
     @Column(length = 2000)
     private String instructions;
 
-
-    /**
-     * Zubereitungszeit in Minuten.
-     */
     private Integer preparationTime;
 
-    /**
-     * Anzahl der Portionen.
-     */
     private Integer servings;
 
-    /**
-     * Die Zutaten.
-     */
-//    @ManyToMany
-//    @JoinTable(name = "recipe_ingredient",
-//    joinColumns = {@JoinColumn(name= "fk_recipe")},
-//    inverseJoinColumns = { @JoinColumn(name = "fk_ingredient")})
-//    private Set<Ingredient> ingredients = new HashSet<Ingredient>();
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<RecipeIngredient> recipeIngredients = new HashSet<RecipeIngredient>();
+    private final Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 
     // Default constructor for JPA
     protected Recipe() {}

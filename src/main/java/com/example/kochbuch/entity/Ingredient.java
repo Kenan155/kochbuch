@@ -15,21 +15,13 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    /**
-     * Der Name des Lebensmittels.
-     */
     private String name;
-
-    /**
-     * Die Energie/Kalorienzahl des Lebensmittels
-     */
     private int calories;
-//    private Integer protein;
-//    private Integer fat;
-//    private Integer carbs;
+
+    // TODO: Add fat, protein and carbs property
 
     @OneToMany(mappedBy = "ingredient")
-    private Set<RecipeIngredient> recipeIngredients = new HashSet<RecipeIngredient>();
+    private final Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 
     // Default constructor for the sake of JPA
     protected Ingredient() {}

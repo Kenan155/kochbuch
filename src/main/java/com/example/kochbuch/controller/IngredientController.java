@@ -1,24 +1,30 @@
 package com.example.kochbuch.controller;
 
+import com.example.kochbuch.controller.dto.CreateIngredientDTO.OnCreate;
+import com.example.kochbuch.controller.dto.CreateIngredientDTO;
+import com.example.kochbuch.controller.dto.IngredientDTO;
+import com.example.kochbuch.controller.dto.IngredientMapper;
 import com.example.kochbuch.entity.Ingredient;
 import com.example.kochbuch.service.IngredientService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import java.util.UUID;
 
+import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 // @Restcontroller kombiniert @Controller und @Responsebody, schreibt also direkt
 // in den Response Body anstatt eine View mit HTML Template zu rendern
 @RestController
-@RequestMapping("/lebensmittel/")
+@RequestMapping("/ingredient/")
+@RequiredArgsConstructor
 public class IngredientController {
 
-    private IngredientService ingredientService;
-
-    public IngredientController(IngredientService ingredientService) {
-        this.ingredientService = ingredientService;
-    }
+    private final IngredientService ingredientService;
+    private final IngredientMapper ingredientMapper;
 
     @ApiResponse(responseCode = "200", description = "Lebensmittel gefunden")
     @ApiResponse(responseCode = "404", description = "Lebensmittel nicht gefunden")
@@ -33,8 +39,9 @@ public class IngredientController {
     }
 
     @PostMapping
-    public Ingredient post(@RequestParam String name, @RequestParam int calories) {
-        Ingredient l = new Ingredient(name, calories);
-        return ingredientService.save(l);
+    public IngredientDTO post(@RequestBody @Validated({Default.class, OnCreate.class}) final CreateIngredientDTO dto) {
+        var entity = ingredientMapper.toIngredient(dto);
+        var saved = ingredientService.save(entity);
+        return ingredientMapper.toIngredientDTO(saved);
     }
 }
