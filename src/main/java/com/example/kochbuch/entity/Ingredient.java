@@ -1,11 +1,10 @@
 package com.example.kochbuch.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -28,6 +27,9 @@ public class Ingredient {
 //    private Integer protein;
 //    private Integer fat;
 //    private Integer carbs;
+
+    @OneToMany(mappedBy = "ingredient")
+    private Set<RecipeIngredient> recipeIngredients = new HashSet<RecipeIngredient>();
 
     // Default constructor for the sake of JPA
     protected Ingredient() {}
