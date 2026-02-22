@@ -1,16 +1,25 @@
 package com.example.kochbuch.controller.dto;
 
-import lombok.Data;
+import lombok.Builder;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
-@Data
-public class RecipeDTO {
-    private UUID id;
-    private String name;
-    private String instructions;
-    private Integer preparationTime;
-    private Integer servings;
-    private Set<UUID> ingredientIds;
+@Builder
+public record RecipeDTO(
+        UUID id,
+        String name,
+        String instructions,
+        Integer preparationTime,
+        Integer servings,
+        List<RecipeIngredientResponseDTO> ingredients
+) {
+    @Builder
+    public record RecipeIngredientResponseDTO(
+            UUID id,
+            UUID ingredientId,
+            String ingredientName,
+            double amount,
+            String unit
+    ) {}
 }
